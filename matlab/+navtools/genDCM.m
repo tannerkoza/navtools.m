@@ -45,7 +45,7 @@ function DCM = genDCM(angles, seq, units)
                               -s(angles(i)) c(angles(i)) 0; ...
                               0             0            1];
             otherwise
-                if class(seq(i)) ~= "char"
+                if ~ischar(seq(i))
                     error("The sequence input should be a 'char'!")
                 else
                     error("Only char array sequences of 'x', 'y', and 'z' are permitted!")
