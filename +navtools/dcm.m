@@ -1,6 +1,6 @@
-function DCM = genDCM(angles, seq, units)
-%  NAVTOOLS.GENDCM Convert Euler angles (roll, pitch, yaw) to a coordinate transition]
-% matrix (frame rotation) for any length of rotation sequence.
+function dcm = dcm(angles, seq, units)
+%NAVTOOLS.DCM Convert Euler angles (roll, pitch, yaw) to a coordinate transition
+%matrix (frame rotation) for any length of rotation sequence.
 %
 %   Source: Principles of GNSS, Inertial, and Multisensor Integrated Navigation Systems,
 %   Second Edition (Paul D. Groves)
@@ -10,9 +10,9 @@ function DCM = genDCM(angles, seq, units)
 %   See also NAVTOOLS.DCM2EULER
 
     % Initialization
-    lenSeq = length(seq); % number of rotations
-    R = NaN([3 3 lenSeq]); % preallocation of rotation matrices
-    DCM = eye(3); % for pseudo "first" multiplication
+    len_seq = length(seq); % number of rotations
+    R = NaN([3 3 len_seq]); % preallocation of rotation matrices
+    dcm = eye(3); % for pseudo "first" multiplication
 
     switch lower(units)
 
@@ -28,7 +28,7 @@ function DCM = genDCM(angles, seq, units)
     end
 
     % DCM Creation
-    for i = 1:lenSeq
+    for i = 1:len_seq
 
         switch seq(i)
 
@@ -52,7 +52,7 @@ function DCM = genDCM(angles, seq, units)
                 end
         end
 
-        DCM = R(:, :, i) * DCM; % intrinsic rotations
+        dcm = R(:, :, i) * dcm; % intrinsic rotations
 
     end
 
