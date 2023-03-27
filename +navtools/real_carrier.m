@@ -1,4 +1,4 @@
-function carrier = real_carrier(fcarrier,fsamp,duration)
+function carrier = real_carrier(fcarrier,fsamp,duration,noise)
 %IQ_CARRIER Produces an real carrier signal based on the sampling frequency,
 %carrier frequency, and duration of a signal.
 %
@@ -6,6 +6,7 @@ function carrier = real_carrier(fcarrier,fsamp,duration)
 %       - fcarrier: carrier frequency [Hz]
 %       - fsamp: sampling frequency [Hz]
 %       - duration: length of signal [s]
+%       - noise: (optional) noise standard deviation 
 %
 %   Outputs: 
 %       - real carrier signal
@@ -15,6 +16,11 @@ function carrier = real_carrier(fcarrier,fsamp,duration)
 %   See also NAVTOOLS.IQ_CARRIER
 
 carrier = real(navtools.iq_carrier(fcarrier,fsamp,duration));
+
+if exist('noise','var')
+    num_samps = length(carrier);
+    carrier = carrier + noise*randn(1, num_samps);
+end
 
 end
 
