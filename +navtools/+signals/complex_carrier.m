@@ -1,4 +1,4 @@
-function carrier = iq_carrier(fcarrier, fsamp, duration, noise)
+function carrier = complex_carrier(fcarrier, fsamp, duration, noise)
 %IQ_CARRIER Produces an IQ carrier signal based on the sampling frequency,
 %carrier frequency, and duration of a signal.
 %

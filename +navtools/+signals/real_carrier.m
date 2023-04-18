@@ -13,7 +13,7 @@ function carrier = real_carrier(fcarrier, fsamp, duration, noise)
 %
 %   Author: Tanner Koza
 %
-%   See also NAVTOOLS.SIGNALS.IQ_CARRIER
+%   See also NAVTOOLS.SIGNALS.COMPLEX_CARRIER
 
 carrier = real(navtools.iq_carrier(fcarrier,fsamp,duration));
 
