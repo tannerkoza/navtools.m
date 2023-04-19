@@ -1,5 +1,5 @@
-function [correlation, sample_lag] = parcorr(baseband_sig, replica)
-%PARCORR Correlates two sequences in paralell using an FTT 
+function [correlation, sample_lag] = parcorr(baseband_sig, replica, is_sign_returned)
+%PARCORR Correlates two sequences in parallel using an FFT 
 %   This is specifically used for GNSS correlation applications.
 %
 %   Inputs:
@@ -7,6 +7,8 @@ function [correlation, sample_lag] = parcorr(baseband_sig, replica)
 %       or any arbitrary sequence
 %       - replica: sequence corresponding to replica samples or any
 %       arbitrary sequence
+%       - is_sign_returned: boolean that returns the
+%       correlation output with the correct sign of the max value
 %
 %   Outputs: 
 %       - correlation: correlation output across all samples
@@ -14,7 +16,7 @@ function [correlation, sample_lag] = parcorr(baseband_sig, replica)
 %
 %   Author: Tanner Koza
 
-% Zero-Pad Replica
+% zero-pad replica
 len_baseband = numel(baseband_sig);
 len_replica = numel(replica);
 pad_size = len_baseband - len_replica;
@@ -29,12 +31,17 @@ end
 baseband_fft = fft(baseband_sig);
 replica_fft = fft(replica);
 
-% Correlate
+% correlate
 correlation_fft = baseband_fft .* conj(replica_fft);
-correlation = abs(ifft(correlation_fft)).^2;
+ifft_correlation = ifft(correlation_fft);
+correlation = abs(ifft_correlation).^2;
     
 [~, correlation_idx] = max(correlation);
 sample_lag = correlation_idx - 1;
+
+if exist('is_sign_returned', 'var') && is_sign_returned
+    correlation = sign(ifft_correlation(correlation_idx)) * correlation;
+end
 
 end
 
